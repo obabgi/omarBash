@@ -20,26 +20,13 @@ count_lines () {
   logger -i 'count_line log :) '
 }
 
-
-main(){
-	echo -e "\nWELCOME to my first scripting language. This scripts takes files as an argument and prints how many lines are there. Also provide the user othr useful information "
-	echo "============================"
-	root_check $@
-
-   	echo "you loged in as root"
-	echo "============================"	
-
-
-	#just printing OS information
-	lsb_release -a | tail -n 4
-	echo "============================"
-
+count_line(){
 	
 	#if the number of the argument less than 1 send it to logfile
 
 	if [ $# -lt 1 ]
 		then
-  		echo "you need to insert an argument.. ex: file.txt"
+  		echo "you need to insert an argument.. Ex: file.txt"
   		echo "Usage: $0 logfile" >&2
   		exit 1
 	fi
@@ -58,16 +45,31 @@ main(){
 
 	echo "$n file(s) in total, with $s lines in total"
 
+}
+main(){
+	echo -e "\nWELCOME to my first scripting language. This scripts takes files as an argument and prints how many lines are there. Also provide the user othr useful information "
+	echo "============================"
+	root_check $@
+
+   	echo "you logged in as root"
+	echo "============================"	
+
+
+	#just printing OS information
+	lsb_release -a | tail -n 4
+	echo "============================"
+
+	count_line $@
 	#here just asking the user if they want to check thier ip address
 	q=true
 	
 	while $q; do
-	read -p "Do you want to see your ip address?" yn
+	read -p "Do you want to see your ip address? Enter Yes or NO  " yn
     	
 	case $yn in
        
-	[Yy]* ) ifconfig | awk '/inet addr/{print substr($2,6)}' ; q=false;;
-        [Nn]* ) q=false;;
+	[yes]* ) ifconfig | awk '/inet addr/{print substr($2,6)}' ; q=false;;
+        [no]* ) q=false;;
         * ) echo "Please answer yes or no.";;
     	esac
 	
