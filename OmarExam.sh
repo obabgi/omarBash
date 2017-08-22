@@ -21,16 +21,6 @@ count_lines () {
 }
 
 count_line(){
-	
-	#if the number of the argument less than 1 send it to logfile
-
-	if [ $# -lt 1 ]
-		then
-  		echo "you need to insert an argument.. Ex: file.txt"
-  		echo "Usage: $0 logfile" >&2
-  		exit 1
-	fi
-
 	echo "counts the lines of code in this file $0 " 
 	l=0
 	n=0
@@ -46,17 +36,43 @@ count_line(){
 	echo "$n file(s) in total, with $s lines in total"
 
 }
+
+#check if file(s) exist
+checkFile(){
+	#if the number of the argument less than 1 send it to logfile
+
+	if [ $# -lt 1 ]
+		then
+  		echo "you need to insert an argument.. Ex: file.txt"
+  		echo "Usage: $0 logfile" >&2
+  		exit 1
+  	fi
+  	for index in $*; do
+  		if [[ ! -f $index ]]; then
+  			echo "****************************"
+  			echo -e "\nERROR: $index does not exist\n"
+  			echo "****************************"
+  			exit 1
+  		fi
+  	done
+}
+
+#just printing OS information
+getOSInfo(){
+	lsb_release -a | tail -n 4
+}
+
 main(){
 	echo -e "\nWELCOME to my first scripting language. This scripts takes files as an argument and prints how many lines are there. Also provide the user othr useful information "
 	echo "============================"
 	root_check $@
 
    	echo "you logged in as root"
-	echo "============================"	
+	echo "============================"
 
+	checkFile $@
 
-	#just printing OS information
-	lsb_release -a | tail -n 4
+	getOSInfo
 	echo "============================"
 
 	count_line $@
@@ -64,7 +80,7 @@ main(){
 	q=true
 	
 	while $q; do
-	read -p "Do you want to see your ip address? Enter Yes or NO  " yn
+	read -p "Do you want to see your ip address? Enter yes or no  " yn
     	
 	case $yn in
        
