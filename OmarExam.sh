@@ -11,6 +11,17 @@ fi
 }
 
 
+#error_check() {
+#  if [ $1 -gt 0 ];then
+#    echo -e "ERROR: $1 with $2"
+#  fi
+#}
+
+
+
+
+
+
 # This script Count the number of lines in a list of files
 count_lines () {
   f=$1  
